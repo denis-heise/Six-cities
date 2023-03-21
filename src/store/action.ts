@@ -13,28 +13,28 @@ export type Extra = {
 };
 
 export const Action = {
-  SET_STATE: 'setState',
-  SET_CITY: 'citySet',
-  FETCH_OFFERS: 'hotels',
-  FETCH_OFFER: 'setOffer',
-  SET_SORTING: 'sortingSet',
-  SET_CARD: 'setActiveCard',
-  SET_AUTH: 'setLogin',
-  CHECK_AUTH: 'checkLogin',
-  SET_NUMBER_OFFER: 'setOfferNumber',
-  FETCH_COMMENTS: 'comments',
-  SEND_COMMENT: 'sendComment',
-  FETCH_NEARBY_OFFERS: 'nearby',
-  LOGOUT_USER: 'logout',
-  CHANGE_FAVORITE: 'changeFavorite',
-  FETCH_FAVORITE_OFFERS: 'getFavorite'
+  NUMBER_FAVORITE_OFFER: 'site/number-favorite',
+  SET_CITY: 'site/select-city',
+  FETCH_OFFERS: 'offers/fetch',
+  FETCH_OFFER: 'offer/fetch',
+  SET_SORTING: 'site/sorting',
+  SET_CARD: 'site/active-card',
+  SET_AUTH: 'user/login',
+  CHECK_AUTH: 'user/auth-status',
+  NUMBER_OFFER: 'site/offerNumber',
+  FETCH_COMMENTS: 'offer/fetch-comments',
+  SEND_COMMENT: 'offer/post-comment',
+  FETCH_NEARBY_OFFERS: 'offer/fetch-nearby-offers',
+  LOGOUT_USER: 'user/logout',
+  CHANGE_FAVORITE: 'favorite/post-favorite-offer',
+  FETCH_FAVORITE_OFFERS: 'favorite/fetch-favorite-offer'
 };
 
 const setCity = createAction<CityName>(Action.SET_CITY);
-const setNumberOffer = createAction<number>(Action.SET_NUMBER_OFFER);
+const setNumberOffer = createAction<number>(Action.NUMBER_OFFER);
 const setSelectCard = createAction<Location | null>(Action.SET_CARD);
 const setSorting = createAction<string>(Action.SET_SORTING);
-const setNumberFavoriteOffers = createAction<number>(Action.SET_STATE);
+const setNumberFavoriteOffers = createAction<number>(Action.NUMBER_FAVORITE_OFFER);
 const fetchOffers = createAsyncThunk<Offer[], undefined, Extra>(
   Action.FETCH_OFFERS,
   async (_, { extra: api }) => {
