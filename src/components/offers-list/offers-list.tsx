@@ -8,13 +8,14 @@ import sortData from '../../hooks/sortData';
 import { Fragment, memo } from 'react';
 import { AppRoute } from '../../utils/const';
 import Spinner from '../spinner/spinner';
+import { useLocation } from 'react-router-dom';
 
 type CardListProps = {
   offersList: Offer[];
 };
 
 function CardList ({ offersList }: CardListProps): JSX.Element {
-  const locationName = window.location.pathname;
+  const locationName = useLocation().pathname;
   const isOffersLoading = useAppSelector(getIsOffersLoading);
   const isOffersSort = useAppSelector(getSortOffers);
   const isOffersCity = useAppSelector(getOffersCity);
