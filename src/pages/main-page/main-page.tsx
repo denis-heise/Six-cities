@@ -10,6 +10,7 @@ import EmptyMainPage from '../../components/main-empty/main-empty';
 import { useEffect, useState } from 'react';
 import { getIsOffersLoading } from '../../store/site-data/types-site-data';
 import { fetchOffers, setSelectCard } from '../../store/action';
+import { useLocation } from 'react-router-dom';
 
 type MainProps = {
   offersMain: Offer[];
@@ -17,7 +18,7 @@ type MainProps = {
 
 function Main ({offersMain}: MainProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const locationName = window.location.pathname;
+  const locationName = useLocation().pathname;
   const isOffersCity = useAppSelector(getOffersCity);
   const [isAvailabilityOffers, setAvailabilityOffers] = useState(false);
   const offersCity = locationName.includes(AppRoute.Property) ? offersMain : offersMain.filter((offer) => offer.city.name === isOffersCity.name);
