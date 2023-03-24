@@ -3,7 +3,7 @@ import PremiumTitle from '../premium-title/premium-title';
 import { AppRoute, AuthorizationStatus } from '../../utils/const';
 import {memo, useState} from 'react';
 import { changeFavoriteOffers, setNumberOffer, setSelectCard } from '../../store/action';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getAuthorizationStatus } from '../../store/user-process/types-user-process';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import getPrefixClass from '../../hooks/getPrefixClass';
@@ -11,7 +11,7 @@ import { history } from '../../types/history';
 
 function OfferCard(props: Offer): JSX.Element {
   const dispatch = useAppDispatch();
-  const locationName = window.location.pathname;
+  const locationName = useLocation().pathname;
   const [isActiveButton, setActiveButton] = useState(props.isFavorite);
   const [isActiveCard, setActiveCard] = useState(false);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
