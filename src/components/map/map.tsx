@@ -7,6 +7,7 @@ import {AppRoute, ICON_ANCHOR, ICON_SIZE, URL_MARKER_CURRENT, URL_MARKER_DEFAULT
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getLocationOffer, getNumberOffer, getOffersCity } from '../../store/site-process/types-site-process';
 import { setSelectCard } from '../../store/action';
+import { useLocation } from 'react-router-dom';
 
 type MapProps = {
   dataMap: Offer[];
@@ -15,7 +16,7 @@ type MapProps = {
 
 export default function Map({dataMap, dataOffer}: MapProps) {
   const dispatch = useAppDispatch();
-  const locationName = window.location.pathname;
+  const locationName = useLocation().pathname;
   const mapRef = useRef(null);
   const isOffersCity = useAppSelector(getOffersCity);
   const isSelectOffer = useAppSelector(getLocationOffer);
