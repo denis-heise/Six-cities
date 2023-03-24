@@ -12,7 +12,7 @@ import ListGoods from '../../components/list-goods/list-goods';
 import DescriptionList from '../../components/description-list/description-list';
 import { AppRoute, AuthorizationStatus } from '../../utils/const';
 import { FavoriteOfferAuth } from '../../types/offers';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { CommentAuth } from '../../types/comment';
 import Spinner from '../../components/spinner/spinner';
 import { history } from '../../types/history';
@@ -21,7 +21,7 @@ function Property (): JSX.Element | null{
   const dispatch = useAppDispatch();
   const params = useParams();
   const { id } = params;
-  const locationName = window.location.pathname;
+  const locationName = useLocation().pathname;
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isOfferCity = useAppSelector(getOffer);
   const isCommentsOffer = useAppSelector(selectComments);
