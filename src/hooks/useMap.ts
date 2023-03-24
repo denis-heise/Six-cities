@@ -2,9 +2,10 @@ import {useEffect, useState, MutableRefObject} from 'react';
 import {Map, tileLayer} from 'leaflet';
 import { City } from '../types/offers';
 import { LEAFLET_MAP_SETTINGS } from '../utils/const';
+import { useLocation } from 'react-router-dom';
 
 export default function useMap(mapRef: MutableRefObject<HTMLElement | null>, cityName: City ): Map | null {
-  const locationName = window.location.pathname;
+  const locationName = useLocation().pathname;
   const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {
