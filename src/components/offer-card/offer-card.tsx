@@ -46,9 +46,9 @@ function OfferCard(props: Offer): JSX.Element {
     <article className={`${!(locationName.includes('favorites')) && !(locationName.includes(AppRoute.Property)) ? `${getPrefixClass(locationName)}place-` : getPrefixClass(locationName)}card place-card`} onMouseOver={() => setActiveCard(!isActiveCard)} onMouseEnter={enterCardMouse} onMouseLeave={leaveCardMouse}>
       {props.isPremium === false ? null : <PremiumTitle/>}
       <div className={`${getPrefixClass(locationName)}image-wrapper place-card__image-wrapper`}>
-        <a href="#">
+        <Link to={`${AppRoute.Property}/${props.id}`} onClick={listenChoice}>
           <img className="place-card__image" src={props.previewImage} width={locationName.includes('favorites') ? 150 : 260} height={locationName.includes('favorites') ? 110 : 200} alt={props.title} />
-        </a>
+        </Link>
       </div>
       <div className={`${locationName.includes('favorites') ? `${getPrefixClass(locationName)}card-info ` : ''}place-card__info`}>
         <div className="place-card__price-wrapper">
