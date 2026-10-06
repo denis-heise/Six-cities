@@ -52,8 +52,8 @@ export enum SubmitStatus {
   Rejected = 'REJECTED'
 }
 export const LEAFLET_MAP_SETTINGS = {
-  TILE_LAYER: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-  ATTRIBUTION: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  TILE_LAYER: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+  ATTRIBUTION: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors, Tools by OSM France',
 };
 export const URL_MARKER_DEFAULT = '../../img/pin.svg';
 export const URL_MARKER_CURRENT = '../../img/pin-active.svg';

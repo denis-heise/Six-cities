@@ -1,8 +1,8 @@
-import { Offer } from '../../types/offers';
+import { Hotel } from '../../types/offers';
 import Goods from '../goods/goods';
 
 type GoodsProp = {
-  propListGoods: Offer | null;
+  propListGoods: Hotel | null;
 }
 
 export default function ListGoods ({propListGoods}: GoodsProp):JSX.Element{

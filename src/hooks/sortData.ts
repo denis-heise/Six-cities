@@ -1,7 +1,7 @@
-import type { Offer } from '../types/offers';
+import type { Hotel } from '../types/offers';
 import { Sorting } from '../utils/const';
 
-export default function sortData (arrayData: Offer[], type: string): Offer[] {
+export default function sortData (arrayData: Hotel[], type: string): Hotel[] {
   switch (type){
     case Sorting.Popular:
       return arrayData;

@@ -1,14 +1,15 @@
-import type { AxiosError, AxiosInstance } from 'axios';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { CityName, Offer, Location, FavoriteOfferAuth } from '../types/offers';
-import { User, UserAuth} from '../types/authorization';
-import { ApiRoute, AppRoute, HttpCode } from '../utils/const';
+import { CityName, Location, FavoriteOfferAuth, Offer } from '../types/offers';
+import { UserAuth } from '../types/authorization';
+import { AppRoute } from '../utils/const';
 import { Token } from '../utils/token';
 import { history } from '../types/history';
-import {Comment, CommentAuth} from '../types/comment';
+import { Comment, CommentAuth } from '../types/comment';
+import { hotels } from '../mocks/hotels';
+import type { Hotel } from '../types/offers';
 
 export type Extra = {
-  extra: AxiosInstance;
+  extra: unknown;
   history: History;
 };
 
@@ -35,103 +36,128 @@ const setNumberOffer = createAction<number>(Action.NUMBER_OFFER);
 const setSelectCard = createAction<Location | null>(Action.SET_CARD);
 const setSorting = createAction<string>(Action.SET_SORTING);
 const setNumberFavoriteOffers = createAction<number>(Action.NUMBER_FAVORITE_OFFER);
-const fetchOffers = createAsyncThunk<Offer[], undefined, Extra>(
-  Action.FETCH_OFFERS,
-  async (_, { extra: api }) => {
-    const { data } = await api.get<Offer[]>(ApiRoute.Offers);
-    return data;
-  });
 
-const fetchUserData = createAsyncThunk<UserAuth['email'], UserAuth, Extra>(Action.SET_AUTH,
-  async ({ email, password }, { extra: api }) => {
-    const { data } = await api.post<UserAuth & { token: string}>(ApiRoute.Login, { email, password });
-    const { token } = data;
-    Token.save(token);
+const fetchUserData = createAsyncThunk<UserAuth['email'], UserAuth, Extra>(
+  Action.SET_AUTH,
+  ({ email }, { extra: _api }) => {
+    Token.save('fake-jwt-token-for-demo-purposes');
     window.history.back();
-
-    return email;
-  });
-
-const checkUserStatus = createAsyncThunk<UserAuth['email'], undefined, Extra>(Action.CHECK_AUTH,
-  async (_, { extra }) => {
-    const api = extra;
-
-    try {
-      const { data } = await api.get<User['email']>(ApiRoute.Login);
-      return data;
-    } catch (error) {
-      const axiosError = error as AxiosError;
-
-      if (axiosError.response?.status === HttpCode.NoAuth) {
-        Token.drop();
-      }
-
-      return Promise.reject(error);
-    }
-  });
-
-const logoutUser = createAsyncThunk<void, undefined, Extra>(
-  Action.LOGOUT_USER,
-  async (_, { extra: api }) => {
-    await api.delete(ApiRoute.Logout);
-    Token.drop();
-  });
-
-const fetchOffer = createAsyncThunk<Offer, Offer['id'], Extra>(
-  Action.FETCH_OFFER,
-  async (id, { extra: api }) => {
-    try{
-      const { data } = await api.get<Offer>(`${ApiRoute.Offers}/${id}`);
-      return data;
-    } catch (error){
-      const axiosError = error as AxiosError;
-      if(axiosError.response?.status === HttpCode.NotFound) {
-        history.push(AppRoute.NotFound);
-      }
-      return Promise.reject(error);
-    }
-  });
-
-const fetchComments = createAsyncThunk<Comment[], Comment['id'], Extra>(
-  Action.FETCH_COMMENTS,
-  async (id, { extra: api }) => {
-    const { data } = await api.get<Comment[]>(`${ApiRoute.Comments}/${id}`);
-    return data;
-  });
-
-const sendComment = createAsyncThunk<Comment[], CommentAuth, Extra>(Action.SEND_COMMENT,
-  async ({ id, comment, rating }, { extra: api }) => {
-    const { data } = await api.post<Comment[]>(`${ApiRoute.Comments}/${id}`, { comment, rating });
-    return data;
-  });
-
-const fetchNearbyOffers = createAsyncThunk<Offer[], Comment['id'], Extra>(
-  Action.FETCH_NEARBY_OFFERS,
-  async (id, { extra: api }) => {
-    const { data } = await api.get<Offer[]>(`${ApiRoute.Offers}/${id}/nearby`);
-    return data;
-  });
-
-const changeFavoriteOffers = createAsyncThunk<Offer, FavoriteOfferAuth, Extra>(Action.CHANGE_FAVORITE,
-  async ( {id, status}, {extra:api} ) => {
-    try{
-      const {data} = await api.post<Offer>(`${ApiRoute.Favorite}/${id}/${status}`);
-      return data;
-    } catch (error){
-      const axiosError = error as AxiosError;
-      if(axiosError.response?.status === HttpCode.NotFound) {
-        history.push(AppRoute.Login);
-      }
-      return Promise.reject(error);
-    }
+    return Promise.resolve(email);
   }
 );
 
-const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, Extra>(
-  Action.FETCH_FAVORITE_OFFERS,
-  async (_, { extra: api }) => {
-    const { data } = await api.get<Offer[]>(ApiRoute.Favorite);
-    return data;
-  });
+const checkUserStatus = createAsyncThunk<UserAuth['email'], undefined, Extra>(
+  Action.CHECK_AUTH,
+  (_, { extra: _extra }) => Promise.resolve('demo-developer@example.com')
+);
 
-export { setCity, setSelectCard, setNumberOffer, setSorting, setNumberFavoriteOffers, fetchOffers, fetchUserData, logoutUser, checkUserStatus, fetchOffer, fetchComments, fetchNearbyOffers, sendComment, changeFavoriteOffers, fetchFavoriteOffers};
+const logoutUser = createAsyncThunk<void, undefined, Extra>(
+  Action.LOGOUT_USER,
+  (_, { extra: _api }) => {
+    Token.drop();
+    return Promise.resolve();
+  }
+);
+
+const fetchOffer = createAsyncThunk<Hotel, Hotel['id'], Extra>(
+  Action.FETCH_OFFER,
+  (id) => {
+    const list = hotels;
+    const offer = list.find((item) => item.id === Number(id));
+    if (!offer) {
+      history.push(AppRoute.NotFound);
+      return Promise.reject(new Error('Offer not found'));
+    }
+    return Promise.resolve(offer);
+  }
+);
+
+const fetchComments = createAsyncThunk<Comment[], Comment['id'], Extra>(
+  Action.FETCH_COMMENTS,
+  () => Promise.resolve([])
+);
+
+const sendComment = createAsyncThunk<Comment[], CommentAuth, Extra>(
+  Action.SEND_COMMENT,
+  () => Promise.resolve([])
+);
+
+const fetchNearbyOffers = createAsyncThunk<Offer[], Comment['id'], Extra>(
+  Action.FETCH_NEARBY_OFFERS,
+  (id) => {
+    const list = hotels;
+    const currentOffer = list.find((item) => item.id === Number(id));
+    if (!currentOffer) {
+      return Promise.resolve([]);
+    }
+    const nearby = list.filter(
+      (item) => item.city.name === currentOffer.city.name && item.id !== currentOffer.id
+    );
+    return Promise.resolve(nearby.slice(0, 3) as Offer[]);
+  }
+);
+
+const changeFavoriteOffers = createAsyncThunk<Hotel, FavoriteOfferAuth, Extra>(
+  Action.CHANGE_FAVORITE,
+  ({ id, status }, { extra: _extra }) => {
+    const list = hotels;
+    const offer = list.find((item) => item.id === Number(id));
+
+    if (!offer) {
+      return Promise.reject(new Error('Offer not found'));
+    }
+
+    const updatedOffer = {
+      ...offer,
+      isFavorite: status === 1
+    };
+
+    const favoriteIdsString = localStorage.getItem('six-cities-favorites') || '[]';
+    let favoriteIds = JSON.parse(favoriteIdsString) as number[];
+
+    if (status === 1) {
+      if (!favoriteIds.includes(offer.id)) {
+        favoriteIds.push(offer.id);
+      }
+    } else {
+      favoriteIds = favoriteIds.filter((favId) => favId !== offer.id);
+    }
+
+    localStorage.setItem('six-cities-favorites', JSON.stringify(favoriteIds));
+
+    return Promise.resolve(updatedOffer);
+  }
+);
+
+const fetchFavoriteOffers = createAsyncThunk<Hotel[], undefined, Extra>(
+  Action.FETCH_FAVORITE_OFFERS,
+  () => {
+    const list = hotels;
+    const favoriteIdsString = localStorage.getItem('six-cities-favorites') || '[]';
+    const favoriteIds = JSON.parse(favoriteIdsString) as number[];
+
+    const favorites = list
+      .filter((offer) => favoriteIds.includes(offer.id))
+      .map((offer) => ({ ...offer, isFavorite: true }));
+
+    return Promise.resolve(favorites);
+  }
+);
+
+const fetchOffers = createAsyncThunk<Hotel[], undefined, Extra>(
+  Action.FETCH_OFFERS,
+  (_, { extra: _api }) => {
+    const list = hotels;
+    const favoriteIdsString = localStorage.getItem('six-cities-favorites') || '[]';
+    const favoriteIds = JSON.parse(favoriteIdsString) as number[];
+
+    const synchronizedOffers = list.map((offer) => ({
+      ...offer,
+      isFavorite: favoriteIds.includes(offer.id)
+    }));
+
+    return Promise.resolve(synchronizedOffers);
+  }
+);
+
+export { setCity, setSelectCard, setNumberOffer, setSorting, setNumberFavoriteOffers, fetchOffers, fetchUserData, logoutUser, checkUserStatus, fetchOffer, fetchComments, fetchNearbyOffers, sendComment, changeFavoriteOffers, fetchFavoriteOffers };

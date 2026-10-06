@@ -1,8 +1,8 @@
 import ImageProperty from '../image-property/image-property';
-import { Offer } from '../../types/offers';
+import { Hotel } from '../../types/offers';
 
 type ImageProp = {
-  imgOffer: Offer | null;
+  imgOffer: Hotel | null;
 }
 
 export default function ImageList (imgOffer: ImageProp): JSX.Element {

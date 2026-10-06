@@ -1,5 +1,5 @@
 import CardList from '../../components/offers-list/offers-list';
-import type { Offer } from '../../types/offers';
+import type { Hotel } from '../../types/offers';
 import Map from '../../components/map/map';
 import {CitiesList} from '../../components/cities-list/cities-list';
 import { cities } from '../../mocks/cities';
@@ -13,7 +13,7 @@ import { fetchOffers, setSelectCard } from '../../store/action';
 import { useLocation } from 'react-router-dom';
 
 type MainProps = {
-  offersMain: Offer[];
+  offersMain: Hotel[];
 };
 
 function Main ({offersMain}: MainProps): JSX.Element {

@@ -1,4 +1,4 @@
-import type { Offer } from '../../types/offers';
+import type { Hotel } from '../../types/offers';
 import OfferCard from '../../components/offer-card/offer-card';
 import { getChangeFavoriteOffer, getFavoriteOffers } from '../../store/site-data/types-site-data';
 import { useAppDispatch, useAppSelector } from '../../hooks';
@@ -15,7 +15,7 @@ function Favorites(): JSX.Element{
     dispatch(fetchFavoriteOffers());
   }, [changeFavoriteOffer]);
 
-  const groupedOffersByCity = favoriteOffers.reduce<{ [key: string ]: Offer[] }>((acc, curr) => {
+  const groupedOffersByCity = favoriteOffers.reduce<{ [key: string ]: Hotel[] }>((acc, curr) => {
     if (curr.isFavorite) {
       const city = curr.city.name;
 

@@ -1,18 +1,18 @@
-import { Offer } from '../../types/offers';
+import { Hotel } from '../../types/offers';
 import Description from '../one-description/one-description';
 
 type DescriptionProp = {
-  propListDescription: Offer | null;
+  propListDescription: Hotel | null;
 }
 
 export default function DescriptionList ({propListDescription}: DescriptionProp): JSX.Element{
-  const arrayDiscription = propListDescription?.description.split('.');
+  const arrayDiscription = propListDescription?.description.split('.') || [];
 
-  return(
+  return (
     <div className="property__description">
-      {arrayDiscription && (arrayDiscription.map((item) => (
-        item !== '' ? <Description key={item} propDescription={item}/> : ''
-      )))}
+      {arrayDiscription.map((item) => (
+        item !== '' ? <Description key={item} propDescription={item} /> : ''
+      ))}
     </div>
   );
 }

@@ -1,46 +1,46 @@
 import { cities } from '../../mocks/cities';
 import { Offer } from '../../types/offers';
 import { changeFavoriteOffers, fetchComments, fetchFavoriteOffers, fetchNearbyOffers, fetchOffers, sendComment } from '../action';
-import { reducerData  } from './reducer-data';
+import { reducerData } from './reducer-data';
 import {Comment} from '../../types/comment';
 import { SubmitStatus } from '../../utils/const';
 
 const offers: Offer[] = [{
-    id: 2,
-    price: 222,
-    rating: 3.4,
-    bedrooms: 3,
-    description: 'derty',
-    goods: ['qwerty'],
-    host: {
-      avatarUrl: 'img/avatar.jpg',
-      id: 23,
-      isPro: true,
-      name: 'NameUser',
-      email: 'user@gmail.com',
-      token: 'tokenqwerty'
-    },
-    title: 'Paris A apartment at great location beautiful',
-    isPremium: false,
-    isFavorite: false,
-    previewImage: 'img/apartment-02.jpg',
-    images: ['imgUrl'],
-    maxAdults: 5,
-    type: 'room',
-    city: {
-      name: 'Paris',
-      location: {
-        latitude: 52.3609553943508,
-        longitude: 4.85309666406198,
-        zoom: 10
-      }
-    },
+  id: 2,
+  price: 222,
+  rating: 3.4,
+  bedrooms: 3,
+  description: 'derty',
+  goods: ['qwerty'],
+  host: {
+    avatarUrl: 'img/avatar.jpg',
+    id: 23,
+    isPro: true,
+    name: 'NameUser',
+    email: 'user@gmail.com',
+    token: 'tokenqwerty'
+  },
+  title: 'Paris A apartment at great location beautiful',
+  isPremium: false,
+  isFavorite: false,
+  previewImage: 'img/apartment-02.jpg',
+  images: ['imgUrl'],
+  maxAdults: 5,
+  type: 'room',
+  city: {
+    name: 'Paris',
     location: {
       latitude: 52.3609553943508,
       longitude: 4.85309666406198,
       zoom: 10
     }
+  },
+  location: {
+    latitude: 52.3609553943508,
+    longitude: 4.85309666406198,
+    zoom: 10
   }
+}
 ];
 
 const OfferFavorite: Offer[] = [
@@ -108,8 +108,8 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    })
-  })
+    });
+  });
 
   it('Fetch offers', () => {
     const state = {
@@ -121,7 +121,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    }
+    };
 
     expect(reducerData.reducer(state, { type: fetchOffers.pending.type })).toEqual({
       offers: [],
@@ -132,7 +132,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: true,
-    })
+    });
 
     expect(reducerData.reducer(state, { type: fetchOffers.fulfilled.type, payload: offers })).toEqual({
       offers: offers,
@@ -143,7 +143,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    })
+    });
 
     expect(reducerData.reducer(state, { type: fetchOffers.rejected.type })).toEqual({
       offers: [],
@@ -154,8 +154,8 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    })
-  })
+    });
+  });
 
   it('Fetch favorite offer', () => {
     const state = {
@@ -167,7 +167,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    }
+    };
 
     expect(reducerData.reducer(state, { type: fetchFavoriteOffers.pending.type })).toEqual({
       offers: [],
@@ -178,7 +178,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: true,
-    })
+    });
 
     expect(reducerData.reducer(state, { type: fetchFavoriteOffers.fulfilled.type, payload: OfferFavorite })).toEqual({
       offers: [],
@@ -189,7 +189,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    })
+    });
 
     expect(reducerData.reducer(state, { type: fetchFavoriteOffers.rejected.type })).toEqual({
       offers: [],
@@ -200,8 +200,8 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    })
-  })
+    });
+  });
 
   it('Get a favorite offer', () => {
     const state = {
@@ -213,7 +213,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    }
+    };
 
     expect(reducerData.reducer(state, { type: changeFavoriteOffers.fulfilled.type, payload: {...offers[0], isFavorite: true } })).toEqual({
       offers: [{...offers[0], isFavorite: true }],
@@ -224,7 +224,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    })
+    });
 
     expect(reducerData.reducer(state, { type: changeFavoriteOffers.fulfilled.type, payload: {...offers[0], isFavorite: false } })).toEqual({
       offers: offers,
@@ -235,8 +235,8 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    })
-  })
+    });
+  });
 
   it('Fetch comments', () => {
     const state = {
@@ -248,7 +248,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    }
+    };
 
     expect(reducerData.reducer(state, { type: fetchComments.fulfilled.type, payload: comments })).toEqual({
       offers: [],
@@ -259,32 +259,32 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    })
-  })
+    });
+  });
 
-    it('Fetch nearby offers', () => {
-      const state = {
-        offers: [],
-        favoriteOffers: [],
-        changeFavoriteOffer: null,
-        offer: null,
-        comments: [],
-        commentStatus: SubmitStatus.Still,
-        nearbyOffers: [],
-        isOffersLoading: false,
-      }
+  it('Fetch nearby offers', () => {
+    const state = {
+      offers: [],
+      favoriteOffers: [],
+      changeFavoriteOffer: null,
+      offer: null,
+      comments: [],
+      commentStatus: SubmitStatus.Still,
+      nearbyOffers: [],
+      isOffersLoading: false,
+    };
 
-      expect(reducerData.reducer(state, { type: fetchNearbyOffers.fulfilled.type, payload: offers[0] })).toEqual({
-        offers: [],
-        favoriteOffers: [],
-        changeFavoriteOffer: null,
-        offer: null,
-        comments: [],
-        commentStatus: SubmitStatus.Still,
-        nearbyOffers: offers[0],
-        isOffersLoading: false,
-      })
-  })
+    expect(reducerData.reducer(state, { type: fetchNearbyOffers.fulfilled.type, payload: offers[0] })).toEqual({
+      offers: [],
+      favoriteOffers: [],
+      changeFavoriteOffer: null,
+      offer: null,
+      comments: [],
+      commentStatus: SubmitStatus.Still,
+      nearbyOffers: offers[0],
+      isOffersLoading: false,
+    });
+  });
 
   it('Send new comment', () => {
     const state = {
@@ -296,7 +296,7 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Still,
       nearbyOffers: [],
       isOffersLoading: false,
-    }
+    };
 
     expect(reducerData.reducer(state, { type: sendComment.fulfilled.type, payload: comments })).toEqual({
       offers: [],
@@ -307,6 +307,6 @@ describe('Reducer: reducerData', () => {
       commentStatus: SubmitStatus.Fullfilled,
       nearbyOffers: [],
       isOffersLoading: false,
-    })
-  })
-})
+    });
+  });
+});

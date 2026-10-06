@@ -1,50 +1,72 @@
-import type { FavoriteOfferAuth, Offer } from '../../types/offers';
+import type { FavoriteOfferAuth, Hotel } from '../../types/offers';
 import PremiumTitle from '../premium-title/premium-title';
 import { AppRoute, AuthorizationStatus } from '../../utils/const';
-import {memo, useState} from 'react';
+import { memo, useState } from 'react';
 import { changeFavoriteOffers, setNumberOffer, setSelectCard } from '../../store/action';
 import { Link, useLocation } from 'react-router-dom';
 import { getAuthorizationStatus } from '../../store/user-process/types-user-process';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import getPrefixClass from '../../hooks/getPrefixClass';
 import { history } from '../../types/history';
+import { getLocationOffer } from '../../store/site-process/types-site-process';
 
-function OfferCard(props: Offer): JSX.Element {
+type OfferCardProps = Hotel;
+
+function OfferCard(props: OfferCardProps): JSX.Element {
   const dispatch = useAppDispatch();
   const locationName = useLocation().pathname;
   const [isActiveButton, setActiveButton] = useState(props.isFavorite);
-  const [isActiveCard, setActiveCard] = useState(false);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
-  function enterCardMouse (){
-    if(!locationName.includes('offer')){
+  const selectedOfferLocation = useAppSelector(getLocationOffer);
+
+  const isCardActive = selectedOfferLocation !== null &&
+    selectedOfferLocation.latitude === props.location.latitude &&
+    selectedOfferLocation.longitude === props.location.longitude;
+
+  function enterCardMouse() {
+    if (!locationName.includes('offer')) {
       dispatch(setSelectCard(props.location));
     }
   }
-  function leaveCardMouse (){
-    if(!locationName.includes('offer')){
+
+  function leaveCardMouse() {
+    if (!locationName.includes('offer')) {
       dispatch(setSelectCard(null));
     }
   }
-  function listenChoice (){
+
+  function listenChoice() {
     dispatch(setNumberOffer(props.id));
   }
-  function selectFavoritesOffer (){
-    if(authorizationStatus === AuthorizationStatus.NoAuth){
+
+  function selectFavoritesOffer() {
+    if (authorizationStatus === AuthorizationStatus.NoAuth) {
       history.push(AppRoute.Login);
-    } else if(authorizationStatus === AuthorizationStatus.Auth) {
-      setActiveButton(!isActiveButton);
+    } else if (authorizationStatus === AuthorizationStatus.Auth) {
+      const nextButtonState = !isActiveButton;
+      setActiveButton(nextButtonState);
+
       const favoriteOffer: FavoriteOfferAuth = {
         id: props.id,
-        status: isActiveButton ? 0 : 1,
+        status: nextButtonState ? 1 : 0,
       };
       dispatch(changeFavoriteOffers(favoriteOffer));
     }
   }
 
   return (
-    <article className={`${!(locationName.includes('favorites')) && !(locationName.includes(AppRoute.Property)) ? `${getPrefixClass(locationName)}place-` : getPrefixClass(locationName)}card place-card`} onMouseOver={() => setActiveCard(!isActiveCard)} onMouseEnter={enterCardMouse} onMouseLeave={leaveCardMouse}>
-      {props.isPremium === false ? null : <PremiumTitle/>}
+    <article
+      className={`${
+        !locationName.includes('favorites') && !locationName.includes(AppRoute.Property)
+          ? `${getPrefixClass(locationName)}place-`
+          : getPrefixClass(locationName)
+      }card place-card`}
+      style={isCardActive ? { opacity: 0.5, transition: 'opacity 0.2s ease' } : {}}
+      onMouseEnter={enterCardMouse}
+      onMouseLeave={leaveCardMouse}
+    >
+      {props.isPremium === false ? null : <PremiumTitle />}
       <div className={`${getPrefixClass(locationName)}image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Property}/${props.id}`} onClick={listenChoice}>
           <img className="place-card__image" src={props.previewImage} width={locationName.includes('favorites') ? 150 : 260} height={locationName.includes('favorites') ? 110 : 200} alt={props.title} />
@@ -65,7 +87,7 @@ function OfferCard(props: Offer): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${Math.round(props.rating) * 10 * 2}%`}} />
+            <span style={{ width: `${Math.round(props.rating) * 10 * 2}%` }} />
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

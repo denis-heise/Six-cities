@@ -6,29 +6,33 @@ export type CityName = typeof cities[number];
 export type SortName = keyof typeof Sorting;
 export type State = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
 export type Location = {
   latitude: number;
   longitude: number;
   zoom: number;
 }
+
 export type City = {
   name: CityName;
   location: Location;
 };
 
 export type SiteData = {
-  offers: Offer[];
+  offers: Hotel[];
   isOffersLoading: boolean;
-  offer: Offer | null;
+  offer: Hotel | null;
   isOfferLoading: boolean;
-  favoriteOffers: Offer[];
+  favoriteOffers: Hotel[];
   isFavoriteOffersLoading: boolean;
-  nearbyOffers: Offer[];
+  nearbyOffers: Hotel[];
   comments: Comment[];
 };
+
 export type CityLocation = {
   [key in CityName]: Location
 }
+
 export type UserData = {
   avatarUrl: string;
   email: string;
@@ -37,6 +41,14 @@ export type UserData = {
   name: string;
   token: string;
 }
+
+export type Host = {
+  id: number;
+  name: string;
+  isPro: boolean;
+  avatarUrl: string;
+};
+
 export type Offer = {
   bedrooms: number;
   city: City;
@@ -56,4 +68,23 @@ export type Offer = {
   type: 'apartment' | 'room' | 'house' | 'hotel';
 }
 
-export type FavoriteOfferAuth = Pick<Offer, 'id'> & {status: 1 | 0};
+export type Hotel = {
+  id: number;
+  title: string;
+  description: string;
+  type: 'apartment' | 'room' | 'house' | 'hotel';
+  price: number;
+  rating: number;
+  bedrooms: number;
+  maxAdults: number;
+  isPremium: boolean;
+  isFavorite: boolean;
+  previewImage: string;
+  images: string[];
+  goods: string[];
+  city: City;
+  location: Location;
+  host: Host;
+};
+
+export type FavoriteOfferAuth = Pick<Hotel, 'id'> & {status: 1 | 0};

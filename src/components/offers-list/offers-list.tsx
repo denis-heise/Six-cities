@@ -1,4 +1,4 @@
-import type { Offer } from '../../types/offers';
+import type { Hotel } from '../../types/offers';
 import OfferCard from '../offer-card/offer-card';
 import { useAppSelector } from '../../hooks/index';
 import { getIsOffersLoading } from '../../store/site-data/types-site-data';
@@ -11,7 +11,7 @@ import Spinner from '../spinner/spinner';
 import { useLocation } from 'react-router-dom';
 
 type CardListProps = {
-  offersList: Offer[];
+  offersList: Hotel[];
 };
 
 function CardList ({ offersList }: CardListProps): JSX.Element {

@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react"
-import { cities } from "../../mocks/cities"
-import { Offer } from "../../types/offers";
-import DescriptionList from "./description-list"
+import { render, screen } from '@testing-library/react';
+import { cities } from '../../mocks/cities';
+import { Offer } from '../../types/offers';
+import DescriptionList from './description-list';
 
 const OfferDescriptionList: Offer[] = [
   {
@@ -46,8 +46,8 @@ describe('Component: DescriptionList', () => {
   it('If displayed correctly', () => {
     render(
       <DescriptionList propListDescription={OfferDescriptionList[0]}/>
-    )
+    );
 
     expect(screen.getByText(OfferDescriptionList[0].description)).toBeInTheDocument();
-  })
-})
+  });
+});
