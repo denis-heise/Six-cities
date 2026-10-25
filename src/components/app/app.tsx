@@ -16,13 +16,14 @@ import HeaderPage from '../header/header';
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
   const offers = useAppSelector(getOffers);
+  const basename = process.env.NODE_ENV === 'production' ? '/Six-cities' : '';
 
   useEffect(() => {
     dispatch(checkUserStatus());
   }, []);
 
   return (
-    <HistoryRouter history={history}>
+    <HistoryRouter history={history} basename={basename}>
       <Routes>
         <Route element={<HeaderPage/>}>
           <Route index element={<Main offersMain={offers}/>}/>

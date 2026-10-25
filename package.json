@@ -2,6 +2,7 @@
   "name": "project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://denis-heise.github.io/Six-cities/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
     "@types/leaflet": "^1.9.0",
@@ -17,8 +18,10 @@
     "react-toastify": "^9.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npx cross-env PUBLIC_URL=/ react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .tsx --ext .ts src/"
@@ -77,6 +80,7 @@
     "axios-mock-adapter": "^1.21.2",
     "eslint-config-htmlacademy": "^8.0.0",
     "faker": "^5.5.3",
+    "gh-pages": "^6.3.0",
     "typescript": "^4.8.4"
   }
 }
