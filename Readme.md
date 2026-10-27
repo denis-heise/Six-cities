@@ -1,5 +1,7 @@
 # Six Cities — Standalone Apartment Booking Service (Flagship Project)
 
+🔗 **Live Demo:** https://denis-heise.github.io/Six-cities/
+
 A high-performance, fully production-ready client-side single-page application (SPA) for exploring and booking real estate offers across 6 major cities. Engineered using React, Redux Toolkit, and TypeScript as part of the Advanced Frontend Development track.
 
 *Note: The UI/UX markup, visual styles, and static assets were provided by HTML Academy. My mission was to architect the complete React component ecosystem, build a resilient global state engine, implement strict TypeScript data boundaries, and deliver 100% network-independent autonomy.*
